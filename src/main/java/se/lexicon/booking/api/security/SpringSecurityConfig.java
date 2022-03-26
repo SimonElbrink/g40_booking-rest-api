@@ -39,7 +39,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //HTTP Basic authentication
                 .httpBasic()
-                .authenticationEntryPoint(myBasicAuthenticationEntryPoint)
+                .authenticationEntryPoint(myBasicAuthenticationEntryPoint) // use authenticationEntryPoint will disable the login form
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/", "/api/test/").permitAll() // URL’s has no security
