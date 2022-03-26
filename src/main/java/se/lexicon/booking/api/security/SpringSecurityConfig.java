@@ -8,14 +8,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import se.lexicon.booking.api.exception.MyAccessDeniedHandler;
-import se.lexicon.booking.api.exception.MyBasicAuthenticationEntryPoint;
+import se.lexicon.booking.api.exception.MyAuthenticationEntryPoint;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    MyBasicAuthenticationEntryPoint myBasicAuthenticationEntryPoint;
+    MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
     @Autowired
     MyAccessDeniedHandler myAccessDeniedHandler;
@@ -39,7 +39,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //HTTP Basic authentication
                 .httpBasic()
-                .authenticationEntryPoint(myBasicAuthenticationEntryPoint) // use authenticationEntryPoint will disable the login form
+                .authenticationEntryPoint(myAuthenticationEntryPoint) // use authenticationEntryPoint will disable the login form
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/", "/api/test/").permitAll() // URL’s has no security
