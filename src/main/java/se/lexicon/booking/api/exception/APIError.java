@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class APIError {
+public class APIError extends RuntimeException {
 
     private HttpStatus status;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
@@ -35,6 +35,12 @@ public class APIError {
         this.status = status;
         this.message = message;
         this.debugMessage = ex.getLocalizedMessage();
+    }
+
+    public APIError(HttpStatus status, String message) {
+        this();
+        this.status = status;
+        this.message = message;
     }
 
     public HttpStatus getStatus() {
