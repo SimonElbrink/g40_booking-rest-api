@@ -2,12 +2,14 @@ package se.lexicon.booking.api.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Setter
 @Getter
 @Entity
+@ToString
 @Table(name = "roles")
 public class Role {
 

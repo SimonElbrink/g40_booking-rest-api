@@ -40,6 +40,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+    //https://lexicon.udemy.com/course/building-real-time-rest-apis-with-spring-boot/learn/lecture/28681768#overview
+    // https://www.toptal.com/web/cookie-free-authentication-with-json-web-tokens-an-example-in-laravel-and-angularjs
     // Secure the endpoins with HTTP Basic authentication
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -54,6 +56,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/", "/api/test/").permitAll() // URL’s has no security
+                .antMatchers("/api/v1/booking/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

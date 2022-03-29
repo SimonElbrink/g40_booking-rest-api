@@ -21,7 +21,7 @@ import se.lexicon.booking.api.repository.RoleRepository;
 import se.lexicon.booking.api.repository.UserRepository;
 import se.lexicon.booking.api.security.JwtTokenProvider;
 
-import java.util.Collections;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -75,8 +75,14 @@ public class AuthController {
         user.setEmail(signUpDto.getEmail());
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
 
-        Role roles = roleRepository.findByName("ROLE_ADMIN").get();
-        user.setRoles(Collections.singleton(roles));
+        Set<Role> roles = new HashSet<>();
+        Arrays.stream(signUpDto.getRoles()).forEach(role -> {
+            Optional<Role> found = roleRepository.findByName(role);
+            if (found.isPresent()) {
+                roles.add(found.get());
+            }
+        });
+        user.setRoles(roles);
 
         userRepository.save(user);
 
