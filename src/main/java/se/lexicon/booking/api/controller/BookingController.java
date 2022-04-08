@@ -10,6 +10,7 @@ import se.lexicon.booking.api.repository.BookingRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/v1/booking/")
 public class BookingController {

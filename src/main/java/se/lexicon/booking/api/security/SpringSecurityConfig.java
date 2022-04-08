@@ -8,13 +8,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import se.lexicon.booking.api.exception.MyAccessDeniedHandler;
 import se.lexicon.booking.api.exception.MyAuthenticationEntryPoint;
 
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+
+    @Autowired
+    private MyAccessDeniedHandler myAccessDeniedHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,6 +45,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/api/v1/booking/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/v1/booking/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
+                .and()
+                .csrf().disable() //CSRF stands for Cross-Site Request Forgery - It is an attack that forces an end user to execute unwanted actions on a web application in which they are currently authenticated
+                .exceptionHandling()
+                .accessDeniedHandler(myAccessDeniedHandler)
         ;
 
     }
